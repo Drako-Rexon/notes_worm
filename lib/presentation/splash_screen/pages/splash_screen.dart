@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     splashScreenBloc.add(SplashScreenFetchEvent());
   }
 
-  void navigate(context) {
+  void navigate() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (_) => const HomePage()));
   }
@@ -29,6 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: BlocConsumer<SplashScreenBloc, SplashScreenState>(
         bloc: splashScreenBloc,
+        listener: (context, state) {
+          if (state is SplashScreenSuccess) {
+            navigate();
+          }
+        },
         builder: (context, state) {
           if (state is SplashScreenLoading) {
             return const Center(
@@ -38,13 +43,15 @@ class _SplashScreenState extends State<SplashScreen> {
             return const Center(
               child: Text('Something went wrong...'),
             );
+          } else if (state is SplashScreenSuccess) {
+            // navigate();
+            return const SizedBox();
           } else {
             return const Center(
               child: Text('Loading...'),
             );
           }
         },
-        listener: (BuildContext context, SplashScreenState state) {},
       ),
     );
   }
