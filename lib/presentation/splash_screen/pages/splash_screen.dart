@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sub_notes_app/presentation/homepage/pages/homepage.dart';
+import 'package:lottie/lottie.dart';
+import 'package:sub_notes_app/core/config/assets/app_lottie_animations.dart';
+import 'package:sub_notes_app/presentation/auth/signin_page/pages/signin_page.dart';
 import 'package:sub_notes_app/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigate() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => const HomePage()));
+        context, MaterialPageRoute(builder: (_) => SigninPage()));
   }
 
   @override
@@ -36,15 +38,14 @@ class _SplashScreenState extends State<SplashScreen> {
         },
         builder: (context, state) {
           if (state is SplashScreenLoading) {
-            return const Center(
-              child: FlutterLogo(),
+            return Center(
+              child: Lottie.asset(AppLottieAnimations.loading),
             );
           } else if (state is SplashScreenError) {
             return const Center(
               child: Text('Something went wrong...'),
             );
           } else if (state is SplashScreenSuccess) {
-            // navigate();
             return const SizedBox();
           } else {
             return const Center(
