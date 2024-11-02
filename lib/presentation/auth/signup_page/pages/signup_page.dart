@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sub_notes_app/common/ui_functions/ui_functions.dart';
+import 'package:sub_notes_app/common/widgets/notes_button.dart';
 import 'package:sub_notes_app/core/config/theme/app_color.dart';
 import 'package:sub_notes_app/core/extensions/extensions.dart';
+import 'package:sub_notes_app/presentation/auth/signup_page/bloc/signup_bloc.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({super.key});
@@ -8,6 +11,7 @@ class SignupPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final SignupBloc signupBloc = SignupBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -103,33 +107,22 @@ class SignupPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 4,
-                            color: AppColors.black,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: AppColors.black,
-                              offset: Offset(6, 8),
-                            ),
-                          ],
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          color: AppColors.appYellow,
-                        ),
-                        child: const Text(
-                          'Sign Up',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
+                      onTap: () {
+                        if (_passwordController.text ==
+                            _confirmPasswordController.text) {
+                          signupBloc.add(SignupInitialEvent(
+                              email: _emailController.text,
+                              password: _passwordController.text));
+                        } else {
+                          errorPopup(
+                            ctx: context,
+                            head: 'Passwords do not match',
+                            body:
+                                'Please ensure that your passwords are identical.',
+                          );
+                        }
+                      },
+                      child: const NotesBtn(name: 'Sign Up'),
                     ),
                   ),
                 ],

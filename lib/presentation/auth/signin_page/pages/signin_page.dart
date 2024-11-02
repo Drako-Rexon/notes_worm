@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sub_notes_app/common/widgets/notes_button.dart';
 import 'package:sub_notes_app/core/config/theme/app_color.dart';
 import 'package:sub_notes_app/core/extensions/extensions.dart';
 import 'package:sub_notes_app/presentation/auth/signin_page/bloc/signin_bloc.dart';
@@ -88,32 +89,7 @@ class SigninPage extends StatelessWidget {
                             email: _emailController.text.trim(),
                             password: _passwordController.text));
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 4,
-                            color: AppColors.black,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: AppColors.black,
-                              offset: Offset(6, 8),
-                            ),
-                          ],
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          color: AppColors.appYellow,
-                        ),
-                        child: const Text(
-                          'Sign In',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
+                      child: const NotesBtn(name: 'Sign In'),
                     ),
                   ),
                 ],

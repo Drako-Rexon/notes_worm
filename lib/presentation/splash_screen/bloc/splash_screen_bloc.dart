@@ -28,6 +28,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
       });
     } catch (e) {
       emit(SplashScreenErrorState());
+      return;
     }
   }
 }
