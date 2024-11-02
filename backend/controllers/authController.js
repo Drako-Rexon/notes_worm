@@ -8,8 +8,6 @@ const registerUser = asyncHandler(async (req, res) => {
       email,
       password,
       phone,
-      lastname,
-      firstname
     } = req.body;
 
     const user = await User.findOne({ email });
@@ -22,12 +20,10 @@ const registerUser = asyncHandler(async (req, res) => {
       name,
       email,
       password,
-      firstname,
-      lastname,
       phone
     });
 
-    return res.json({ status: 201, message: 'User created Successfully', data: newUser });
+    return res.status(201).json({ status: 201, message: 'User created Successfully', data: newUser });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -51,7 +47,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find();
 
     res.json({ status: 200, message: 'Users fetched successfully', data: users });
 

@@ -6,14 +6,14 @@ Future errorPopup({required BuildContext ctx, String? head, String? body}) {
     builder: (context) => AlertDialog(
       title: Text(
         head ?? "Something went wrong",
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),
       content: Text(
         body ?? "Something went wrong",
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),

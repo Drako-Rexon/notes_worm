@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sub_notes_app/common/pages/something_went_wrong.dart';
 import 'package:sub_notes_app/core/config/assets/app_lottie_animations.dart';
-import 'package:sub_notes_app/presentation/auth/signin_page/pages/signin_page.dart';
 import 'package:sub_notes_app/presentation/auth/signup_page/pages/signup_page.dart';
 import 'package:sub_notes_app/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,9 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Lottie.asset(AppLottieAnimations.loading),
             );
           } else if (state is SplashScreenErrorState) {
-            return const Center(
-              child: Text('Something went wrong...'),
-            );
+            return const SomethingWentWrong();
           } else if (state is SplashScreenSuccessState) {
             return const SizedBox();
           } else if (state is SplashScreenNoInternetState) {
