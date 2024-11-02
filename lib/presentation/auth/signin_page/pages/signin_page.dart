@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sub_notes_app/core/config/theme/app_color.dart';
 import 'package:sub_notes_app/core/extensions/extensions.dart';
+import 'package:sub_notes_app/presentation/auth/signin_page/bloc/signin_bloc.dart';
 
 class SigninPage extends StatelessWidget {
   SigninPage({super.key});
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final SigninBloc signinBloc = SigninBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class SigninPage extends StatelessWidget {
           child: Column(
             children: [
               TextField(
-                controller: _passwordController,
+                controller: _emailController,
                 decoration: const InputDecoration(
                   hintText: "Username",
                   contentPadding:
@@ -54,7 +56,7 @@ class SigninPage extends StatelessWidget {
               ),
               20.ah,
               TextField(
-                controller: _emailController,
+                controller: _passwordController,
                 decoration: const InputDecoration(
                   hintText: "Password",
                   contentPadding:
@@ -80,29 +82,36 @@ class SigninPage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 4,
-                          color: AppColors.black,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
+                    child: InkWell(
+                      onTap: () {
+                        signinBloc.add(SigninInitialEvent(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 4,
                             color: AppColors.black,
-                            offset: Offset(6, 8),
                           ),
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        color: AppColors.appYellow,
-                      ),
-                      child: const Text(
-                        'Sign In',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: AppColors.black,
+                              offset: Offset(6, 8),
+                            ),
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30)),
+                          color: AppColors.appYellow,
+                        ),
+                        child: const Text(
+                          'Sign In',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
