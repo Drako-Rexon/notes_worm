@@ -25,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigate() {
     Navigator.pushReplacement(
         // context, MaterialPageRoute(builder: (_) => SigninPage()));
-        context, MaterialPageRoute(builder: (_) => SignupPage()));
+    context,
+    MaterialPageRoute(builder: (_) => SignupPage()));
   }
 
   @override
@@ -34,21 +35,28 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocConsumer<SplashScreenBloc, SplashScreenState>(
         bloc: splashScreenBloc,
         listener: (context, state) {
-          if (state is SplashScreenSuccess) {
+          if (state is SplashScreenSuccessState) {
             navigate();
           }
         },
         builder: (context, state) {
-          if (state is SplashScreenLoading) {
+          if (state is SplashScreenLoadingState) {
             return Center(
               child: Lottie.asset(AppLottieAnimations.loading),
             );
-          } else if (state is SplashScreenError) {
+          } else if (state is SplashScreenErrorState) {
             return const Center(
               child: Text('Something went wrong...'),
             );
-          } else if (state is SplashScreenSuccess) {
+          } else if (state is SplashScreenSuccessState) {
             return const SizedBox();
+          } else if (state is SplashScreenNoInternetState) {
+            return Column(
+              children: [
+                Lottie.asset(AppLottieAnimations.noInternet),
+                const Center(child: Text('No Internet Connection...'))
+              ],
+            );
           } else {
             return const Center(
               child: Text('Loading...'),
