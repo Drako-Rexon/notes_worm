@@ -6,6 +6,7 @@ abstract class SignupEvent {}
 class SignupInitialEvent extends SignupEvent {
   SignupInitialEvent({
     required this.name,
+    required this.username,
     required this.email,
     required this.password,
   });
@@ -13,4 +14,5 @@ class SignupInitialEvent extends SignupEvent {
   final String email;
   final String password;
   final String name;
+  final String username;
 }

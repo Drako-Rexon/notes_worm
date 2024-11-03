@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel.js');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const registerUser = asyncHandler(async (req, res) => {
   try {
@@ -7,23 +9,35 @@ const registerUser = asyncHandler(async (req, res) => {
       name,
       email,
       password,
+      role,
+      grade,
+      username,
       phone,
     } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ $or: [{ email: emailusername }, { username: emailusername }] });
 
     if (user) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
+    const passSalt = Number(process.env.PASS_SALT);
+
+    const hashedPassword = await bcrypt.hash(password, passSalt);
+
     const newUser = await User.create({
       name,
       email,
-      password,
-      phone
+      password: hashedPassword,
+      role,
+      grade,
+      username,
+      phone,
     });
 
-    return res.status(201).json({ status: 201, message: 'User created Successfully', data: newUser });
+    const token = jwt.sign({ username, email }, process.env.SALT);
+
+    return res.status(201).json({ status: 201, token, message: 'User created Successfully', data: newUser });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -32,14 +46,20 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { emailusername, password } = req.body;
+    const user = await User.findOne({ $or: [{ email: emailusername }, { username: emailusername }] });
 
-    if (!user || !(await user.matchPassword(password))) {
+    console.log(user);
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!user || !match) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    return res.json({ status: 200, message: 'User logged in successfully', data: user });
+    const token = jwt.sign({ username: user.username, email: user.email }, process.env.SALT);
+
+    return res.status(200).json({ status: 200, token, message: 'User logged in successfully', data: user });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -20,7 +22,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       Map<String, String> body = {
         "name": event.name,
         "email": event.email,
-        "password": event.password
+        "password": event.password,
+        "role": "student",
+        "grade": "1",
       };
 
       final respone =
@@ -29,10 +33,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         emit(SignupSuccessState());
         return;
       }
-      emit(SignupFailureState(error: 'Failed to sign up'));
+      emit(SignupErrorState());
       return;
     } catch (e) {
       emit(SignupErrorState());
+      return;
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:sub_notes_app/core/config/theme/app_theme.dart';
 import 'package:sub_notes_app/presentation/splash_screen/pages/splash_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   runApp(const MainApp());
 }

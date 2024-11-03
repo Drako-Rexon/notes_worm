@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sub_notes_app/common/widgets/notes_button.dart';
+import 'package:sub_notes_app/core/config/theme/app_color.dart';
 
 Future errorPopup({required BuildContext ctx, String? head, String? body}) {
   return showDialog(
     context: ctx,
     builder: (context) => AlertDialog(
+      backgroundColor: AppColors.appLightYellow,
       title: Text(
         head ?? "Something went wrong",
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -18,12 +21,13 @@ Future errorPopup({required BuildContext ctx, String? head, String? body}) {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
+        InkWell(
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          onTap: () {
+            Navigator.pop(context);
           },
-          child: const Text('OK'),
-        ),
+          child: const NotesBtn(name: 'OK'),
+        )
       ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

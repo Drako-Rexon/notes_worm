@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sub_notes_app/common/pages/something_went_wrong.dart';
 import 'package:sub_notes_app/core/config/assets/app_lottie_animations.dart';
-import 'package:sub_notes_app/presentation/auth/signup_page/pages/signup_page.dart';
+import 'package:sub_notes_app/presentation/auth/signin_page/pages/signin_page.dart';
 import 'package:sub_notes_app/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,9 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigate() {
     Navigator.pushReplacement(
-        // context, MaterialPageRoute(builder: (_) => SigninPage()));
-        context,
-        MaterialPageRoute(builder: (_) => SignupPage()));
+        context, MaterialPageRoute(builder: (_) => const SigninPage()));
+        // context,
+        // MaterialPageRoute(builder: (_) => const SignupPage()));
   }
 
   @override
