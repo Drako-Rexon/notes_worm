@@ -4,7 +4,10 @@ import 'package:sub_notes_app/core/config/assets/app_lottie_animations.dart';
 import 'package:sub_notes_app/core/extensions/extensions.dart';
 
 class SomethingWentWrong extends StatelessWidget {
-  const SomethingWentWrong({super.key, this.errorText});
+  const SomethingWentWrong({
+    super.key,
+    this.errorText,
+  });
   final String? errorText;
 
   @override

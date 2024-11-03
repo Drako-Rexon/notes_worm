@@ -8,7 +8,8 @@ class AppTheme {
     // primaryColor: AppColors.appWhite,
     // scaffoldBackgroundColor: AppColors.appWhite,
     brightness: Brightness.light,
-    fontFamily: GoogleFonts.handlee().fontFamily,
+    // fontFamily: GoogleFonts.handlee().fontFamily,
+    fontFamily: GoogleFonts.openSans().fontFamily,
   );
   static final ThemeData darkTheme = ThemeData(
     primaryColor: AppColors.black,
