@@ -63,7 +63,7 @@ class _SignupPageState extends State<SignupPage> {
                         MaterialPageRoute(
                             builder: (_) => const SignupAddInfo()));
                   } else if (state is SignupErrorState) {
-                    context.pushReplacement(const SomethingWentWrong());
+                    context.push(const SomethingWentWrong());
                   }
                 },
                 builder: (context, state) {
@@ -227,7 +227,6 @@ class _SignupPageState extends State<SignupPage> {
                           String name = _nameController.text;
                           String email = _emailController.text;
                           String password = _passwordController.text;
-
                           String username = _usernameController.text;
                           if (password.isNotEmpty) {
                             if (email.isNotEmpty &&
