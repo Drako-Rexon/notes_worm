@@ -12,10 +12,11 @@ const registerUser = asyncHandler(async (req, res) => {
       role,
       grade,
       username,
-      phone,
     } = req.body;
 
-    const user = await User.findOne({ $or: [{ email: emailusername }, { username: emailusername }] });
+    const user = await User.findOne({ $or: [{ email: email }, { username: username }] });
+
+    console.log(user);
 
     if (user) {
       return res.status(400).json({ message: 'User already exists' });
@@ -25,17 +26,18 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, passSalt);
 
+    const correctedUsername = String(username).toLowerCase();
+
     const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
       role,
       grade,
-      username,
-      phone,
+      username: correctedUsername,
     });
 
-    const token = jwt.sign({ username, email }, process.env.SALT);
+    const token = jwt.sign({ username, email, id: newUser._id }, process.env.JWT_SALT);
     let newUserResult;
     if (newUser) {
       const { password, ...userWithoutPassword } = newUser;
@@ -44,7 +46,36 @@ const registerUser = asyncHandler(async (req, res) => {
 
     return res.status(201).json({ status: 201, token, message: 'User created Successfully', data: newUserResult });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
+  }
+});
+
+const addInformation = asyncHandler(async (req, res) => {
+  const {
+    role,
+    grade
+  } = req.body;
+
+  const { id } = req.user;
+
+  console.log(id);
+
+  try {
+
+    const user = await User.findById({ _id: id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const updatedData = await User.findByIdAndUpdate(id, {
+      "role": role,
+      "grade": grade
+    });
+
+    return res.status(204).json({ status: 204, data: updatedData });
+
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
 });
 
@@ -53,19 +84,22 @@ const loginUser = asyncHandler(async (req, res) => {
     const { emailusername, password } = req.body;
     const user = await User.findOne({ $or: [{ email: emailusername }, { username: emailusername }] });
 
-    const match = await bcrypt.compare(password, user.password);
-
-    if (!user || !match) {
+    if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ username: user.username, email: user.email }, process.env.PASS_SALT);
+    // * matching the password with the existing if the user already exists
+    const match = await bcrypt.compare(password, user.password);
 
-    delete user.password;
+    if (!match) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    const token = jwt.sign({ username: user.username, email: user.email }, process.env.SALT);
 
     return res.status(200).json({ status: 200, token, message: 'User logged in successfully', data: user });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 });
 
@@ -73,10 +107,10 @@ const getAllUsers = asyncHandler(async (req, res) => {
   try {
     const users = await User.find();
 
-    res.json({ status: 200, message: 'Users fetched successfully', data: users });
+    return res.json({ status: 200, message: 'Users fetched successfully', data: users });
 
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 });
 
@@ -90,7 +124,7 @@ const getUserById = asyncHandler(async (req, res) => {
 
     return res.json({ status: 200, message: 'User fetched successfully', data: user });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 });
 
@@ -99,4 +133,5 @@ module.exports = {
   loginUser,
   getAllUsers,
   getUserById,
+  addInformation,
 };

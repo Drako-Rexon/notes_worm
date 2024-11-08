@@ -16,3 +16,12 @@ class SignupInitialEvent extends SignupEvent {
   final String name;
   final String username;
 }
+
+class SignupAddInfoEvent extends SignupEvent {
+  SignupAddInfoEvent({
+    required this.role,
+    required this.grade,
+  });
+  final String grade;
+  final String role;
+}

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sub_notes_app/common/pages/something_went_wrong.dart';
@@ -23,6 +25,26 @@ class _SignupAddInfoState extends State<SignupAddInfo> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final SignupBloc signupBloc = SignupBloc();
+  final List<String> _roles = [
+    "Student",
+    "Teacher",
+  ];
+  final List<String> _grades = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+  ];
+  String _selectedRole = "Select a role";
+  String _selectedGrade = "Select a grade";
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +78,7 @@ class _SignupAddInfoState extends State<SignupAddInfo> {
                   context: context,
                   builder: (context) {
                     return const AlertDialog(
-                      title:  Text('Error'),
+                      title: Text('Error'),
                       content: Text('failure'),
                     );
                   },
@@ -82,11 +104,95 @@ class _SignupAddInfoState extends State<SignupAddInfo> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        DropdownButtonFormField<String>(
+                          value: _selectedRole,
+                          items: _roles.map((role) {
+                            return DropdownMenuItem<String>(
+                              value: role,
+                              child: Text(role),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedRole = value!;
+                            });
+                          },
+                          icon: Transform.rotate(
+                            angle: -pi / 2,
+                            child: const Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: AppColors.black,
+                              size: 18,
+                            ),
+                          ),
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 20),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              borderSide: BorderSide(width: 2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              borderSide: BorderSide(width: 3),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              borderSide: BorderSide(width: 2),
+                            ),
+                          ),
+                        ),
+                        20.ah,
+                        DropdownButtonFormField<String>(
+                          value: _selectedGrade,
+                          items: _grades.map((grade) {
+                            return DropdownMenuItem<String>(
+                              value: grade,
+                              child: Text(grade),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedGrade = value!;
+                            });
+                          },
+                          icon: Transform.rotate(
+                            angle: -pi / 2,
+                            child: const Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: AppColors.black,
+                              size: 18,
+                            ),
+                          ),
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 20),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              borderSide: BorderSide(width: 2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              borderSide: BorderSide(width: 3),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              borderSide: BorderSide(width: 2),
+                            ),
+                          ),
+                        ),
+                        20.ah,
                         TextField(
                           cursorColor: AppColors.black,
                           controller: _nameController,
                           decoration: const InputDecoration(
-                            hintText: "Full Name",
+                            hintText: "Role",
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 30, vertical: 20),
                             enabledBorder: OutlineInputBorder(

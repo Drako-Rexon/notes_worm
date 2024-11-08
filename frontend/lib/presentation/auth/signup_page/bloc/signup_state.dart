@@ -15,3 +15,11 @@ class SignupFailureState extends SignupState {
   SignupFailureState({required this.error});
   final String error;
 }
+
+// * state for adding information additionally
+
+class SignupAddInfoLoadingState extends SignupState {}
+
+class SignupAddInfoSuccessState extends SignupState {}
+
+class SignupAddInfoErrorState extends SignupState {}

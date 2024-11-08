@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -11,6 +12,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   SignupBloc() : super(SignupInitialState()) {
     on<SignupEvent>((event, emit) {});
     on<SignupInitialEvent>(signinInitialEvent);
+    on<SignupAddInfoEvent>(signupAddInfoEvent);
   }
 
   FutureOr<void> signinInitialEvent(
@@ -21,13 +23,16 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         "name": event.name,
         "email": event.email,
         "password": event.password,
+        "username": event.username,
         "role": "student",
         "grade": "1",
       };
+      log(body.toString());
 
-      final respone =
+      final response =
           await request('post', '/api/v1/auth/register', json: body);
-      if (respone.statusCode == 201) {
+      log("${response.statusCode} and ${response.body}");
+      if (response.statusCode == 201) {
         emit(SignupSuccessState());
         return;
       }
@@ -36,6 +41,29 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     } catch (e) {
       emit(SignupErrorState());
       return;
+    }
+  }
+
+  FutureOr<void> signupAddInfoEvent(
+      SignupAddInfoEvent event, Emitter<SignupState> emit) async {
+    emit(SignupAddInfoSuccessState());
+
+    try {
+      final body = {
+        "role": event.role,
+        "grade": event.grade,
+      };
+
+      final response =
+          await request('put', '/api/v1/auth/add-info', json: body);
+      if (response.statusCode == 204) {
+        emit(SignupAddInfoSuccessState());
+        return;
+      }
+      emit(SignupAddInfoErrorState());
+      return;
+    } catch (e) {
+      emit(SignupAddInfoErrorState());
     }
   }
 }
