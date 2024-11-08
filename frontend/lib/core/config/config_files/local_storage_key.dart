@@ -1,5 +1,7 @@
 class AppKey {
   final String tokenKey = "token";
+  final String standardKey = "standard";
 
-  String get getTokenKew => tokenKey;
+  String get getTokenKey => tokenKey;
+  String get getStandard => standardKey;
 }

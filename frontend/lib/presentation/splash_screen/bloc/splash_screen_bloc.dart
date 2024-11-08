@@ -20,7 +20,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     try {
       final SharedPreferences pref = await SharedPreferences.getInstance();
       AppKey appKey = AppKey();
-      String? token = pref.getString(appKey.getTokenKew);
+      String? token = pref.getString(appKey.getTokenKey);
       await Future.delayed(const Duration(seconds: 2), () async {
         bool result = await InternetConnection().hasInternetAccess;
         if (result) {

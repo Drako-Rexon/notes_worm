@@ -4,16 +4,16 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const registerUser = asyncHandler(async (req, res) => {
-  try {
-    const {
-      name,
-      email,
-      password,
-      role,
-      grade,
-      username,
-    } = req.body;
+  const {
+    name,
+    email,
+    password,
+    role,
+    grade,
+    username,
+  } = req.body;
 
+  try {
     const user = await User.findOne({ $or: [{ email: email }, { username: username }] });
 
     console.log(user);
@@ -95,7 +95,7 @@ const loginUser = asyncHandler(async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ username: user.username, email: user.email }, process.env.SALT);
+    const token = jwt.sign({ username: user.username, email: user.email }, process.env.JWT_SALT);
 
     return res.status(200).json({ status: 200, token, message: 'User logged in successfully', data: user });
   } catch (err) {
