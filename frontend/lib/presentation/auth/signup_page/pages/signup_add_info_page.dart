@@ -5,7 +5,7 @@ import 'package:sub_notes_app/common/ui_functions/ui_functions.dart';
 import 'package:sub_notes_app/common/widgets/notes_button.dart';
 import 'package:sub_notes_app/core/config/assets/app_images.dart';
 import 'package:sub_notes_app/core/config/theme/app_color.dart';
-import 'package:sub_notes_app/core/extensions/extensions.dart';
+import 'package:sub_notes_app/core/config/extensions/extensions.dart';
 import 'package:sub_notes_app/presentation/auth/signup_page/bloc/signup_bloc.dart';
 import 'package:sub_notes_app/presentation/homepage/pages/homepage.dart';
 
@@ -55,7 +55,7 @@ class _SignupAddInfoState extends State<SignupAddInfo> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return AlertDialog(
+                    return const AlertDialog(
                       title:  Text('Error'),
                       content: Text('failure'),
                     );

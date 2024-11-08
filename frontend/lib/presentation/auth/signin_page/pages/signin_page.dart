@@ -8,7 +8,7 @@ import 'package:sub_notes_app/common/widgets/loading.dart';
 import 'package:sub_notes_app/common/widgets/notes_button.dart';
 import 'package:sub_notes_app/core/config/assets/app_images.dart';
 import 'package:sub_notes_app/core/config/theme/app_color.dart';
-import 'package:sub_notes_app/core/extensions/extensions.dart';
+import 'package:sub_notes_app/core/config/extensions/extensions.dart';
 import 'package:sub_notes_app/presentation/auth/signin_page/bloc/signin_bloc.dart';
 import 'package:sub_notes_app/presentation/auth/signup_page/pages/signup_page.dart';
 import 'package:sub_notes_app/presentation/homepage/pages/homepage.dart';

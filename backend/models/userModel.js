@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema(
       unique: true,
       required: true,
     },
-    grade: {
+    standard: {
       type: String,
     },
     role: {
@@ -35,5 +35,5 @@ const userSchema = mongoose.Schema(
     timestamps: true
   }
 );
-
+ 
 module.exports = mongoose.model('User', userSchema);

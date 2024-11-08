@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sub_notes_app/core/config/assets/app_lottie_animations.dart';
-import 'package:sub_notes_app/core/extensions/extensions.dart';
+import 'package:sub_notes_app/core/config/extensions/extensions.dart';
 
 class SomethingWentWrong extends StatelessWidget {
   const SomethingWentWrong({

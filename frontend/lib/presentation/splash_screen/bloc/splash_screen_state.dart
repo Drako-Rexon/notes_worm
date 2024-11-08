@@ -7,7 +7,9 @@ class SplashScreenInitialState extends SplashScreenState {}
 
 class SplashScreenLoadingState extends SplashScreenState {}
 
-class SplashScreenSuccessState extends SplashScreenState {}
+class SplashScreenNoTokenState extends SplashScreenState {}
+
+class SplashScreenNavigateEnterState extends SplashScreenState {}
 
 class SplashScreenErrorState extends SplashScreenState {}
 

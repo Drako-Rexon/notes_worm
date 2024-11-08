@@ -22,21 +22,16 @@ class _SplashScreenState extends State<SplashScreen> {
     splashScreenBloc.add(SplashScreenFetchEvent());
   }
 
-  void navigate() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => const SigninPage()));
-        // context,
-        // MaterialPageRoute(builder: (_) => const SignupPage()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<SplashScreenBloc, SplashScreenState>(
         bloc: splashScreenBloc,
         listener: (context, state) {
-          if (state is SplashScreenSuccessState) {
-            navigate();
+          if (state is SplashScreenNoTokenState) {
+          } else if (state is SplashScreenNavigateEnterState) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => const SigninPage()));
           }
         },
         builder: (context, state) {
@@ -46,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             );
           } else if (state is SplashScreenErrorState) {
             return const SomethingWentWrong();
-          } else if (state is SplashScreenSuccessState) {
+          } else if (state is SplashScreenNoTokenState) {
             return const SizedBox();
           } else if (state is SplashScreenNoInternetState) {
             return Column(

@@ -36,20 +36,22 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     const token = jwt.sign({ username, email }, process.env.SALT);
+    let newUserResult;
+    if (newUser) {
+      const { password, ...userWithoutPassword } = newUser;
+      newUserResult = userWithoutPassword;
+    }
 
-    return res.status(201).json({ status: 201, token, message: 'User created Successfully', data: newUser });
+    return res.status(201).json({ status: 201, token, message: 'User created Successfully', data: newUserResult });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-
 const loginUser = asyncHandler(async (req, res) => {
   try {
     const { emailusername, password } = req.body;
     const user = await User.findOne({ $or: [{ email: emailusername }, { username: emailusername }] });
-
-    console.log(user);
 
     const match = await bcrypt.compare(password, user.password);
 
@@ -57,7 +59,9 @@ const loginUser = asyncHandler(async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ username: user.username, email: user.email }, process.env.SALT);
+    const token = jwt.sign({ username: user.username, email: user.email }, process.env.PASS_SALT);
+
+    delete user.password;
 
     return res.status(200).json({ status: 200, token, message: 'User logged in successfully', data: user });
   } catch (err) {
