@@ -11,7 +11,6 @@ part 'homepage_state.dart';
 
 class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
   HomepageBloc() : super(HomepageInitial()) {
-    on<HomepageEvent>((event, emit) {});
     on<HomePageInitLoadEvent>(homePageInitLoadEvent);
   }
 

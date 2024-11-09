@@ -9,12 +9,16 @@ class SignupInitialEvent extends SignupEvent {
     required this.username,
     required this.email,
     required this.password,
+    required this.role,
+    required this.standard,
   });
 
   final String email;
   final String password;
   final String name;
   final String username;
+  final String role;
+  final String standard;
 }
 
 class SignupAddInfoEvent extends SignupEvent {

@@ -25,8 +25,35 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   final SignupBloc signupBloc = SignupBloc();
+  final List<String> _roles = [
+    "student",
+    "teacher",
+  ];
+  final List<String> _standards = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12"
+  ];
+  String _selectedRole = "";
+  String _selectedStandard = "";
 
   bool hidePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedRole = _roles[0].toLowerCase();
+    _selectedStandard = _standards[0];
+  }
 
   @override
   void dispose() {
@@ -96,7 +123,7 @@ class _SignupPageState extends State<SignupPage> {
       children: [
         Center(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             margin: const EdgeInsets.symmetric(horizontal: 40),
             decoration: BoxDecoration(
                 color: AppColors.appLightYellow,
@@ -114,7 +141,7 @@ class _SignupPageState extends State<SignupPage> {
                   decoration: const InputDecoration(
                     hintText: "Full Name",
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide(width: 2),
@@ -137,7 +164,7 @@ class _SignupPageState extends State<SignupPage> {
                   decoration: const InputDecoration(
                     hintText: "Username",
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide(width: 2),
@@ -160,7 +187,7 @@ class _SignupPageState extends State<SignupPage> {
                   decoration: const InputDecoration(
                     hintText: "Email",
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide(width: 2),
@@ -200,7 +227,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     hintText: "Password",
                     contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
+                        horizontal: 20, vertical: 10),
                     enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide(width: 2),
@@ -214,9 +241,83 @@ class _SignupPageState extends State<SignupPage> {
                       borderSide: BorderSide(width: 2),
                     ),
                   ),
-                  onChanged: (value) {
-                    // Handle text field input here
-                  },
+                  onChanged: (value) {},
+                ),
+                20.ah,
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedRole,
+                        hint: const Text("Select a Role"),
+                        items: _roles.map((role) {
+                          return DropdownMenuItem(
+                            value: role,
+                            child: Text(capitalizeFirstLetter(role)),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedRole = value!.toLowerCase();
+                          });
+                        },
+                        icon: const SizedBox.shrink(),
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide: BorderSide(width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide: BorderSide(width: 3),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide: BorderSide(width: 2),
+                          ),
+                        ),
+                      ),
+                    ),
+                    10.aw,
+                    Expanded(
+                      flex: 3,
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedStandard,
+                        hint: const Text("Grade"),
+                        items: _standards.map((standard) {
+                          return DropdownMenuItem(
+                            value: standard,
+                            child: Text(standard),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedRole = value!.toLowerCase();
+                          });
+                        },
+                        icon: const SizedBox.shrink(),
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide: BorderSide(width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide: BorderSide(width: 3),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide: BorderSide(width: 2),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 40.ah,
                 Row(
@@ -228,17 +329,21 @@ class _SignupPageState extends State<SignupPage> {
                           String email = _emailController.text;
                           String password = _passwordController.text;
                           String username = _usernameController.text;
+
                           if (password.isNotEmpty) {
                             if (email.isNotEmpty &&
                                 username.isNotEmpty &&
                                 name.isNotEmpty &&
                                 password.isNotEmpty) {
-                              signupBloc.add(SignupInitialEvent(
-                                name: name,
-                                email: email,
-                                password: password,
-                                username: username,
-                              ));
+                              signupBloc.add(
+                                SignupInitialEvent(
+                                    name: name,
+                                    email: email,
+                                    password: password,
+                                    username: username,
+                                    role: _selectedRole,
+                                    standard: _selectedStandard),
+                              );
                             } else {
                               errorPopup(
                                 ctx: context,
@@ -282,5 +387,11 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ],
     );
+  }
+
+  String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
+
+    return '${text[0].toUpperCase()}${text.substring(1).toLowerCase()}';
   }
 }

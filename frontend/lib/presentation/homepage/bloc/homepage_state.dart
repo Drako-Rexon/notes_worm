@@ -5,7 +5,10 @@ abstract class HomepageState {}
 
 class HomepageInitial extends HomepageState {}
 
-class HomepageFetchedSuccessState extends HomepageState {}
+class HomepageFetchedSuccessState extends HomepageState {
+  // final List<SubjectModel> subjects;
+  // HomepageFetchedSuccessState({super.key, required subjects});
+}
 
 class HomepageFetchedFailureState extends HomepageState {}
 
